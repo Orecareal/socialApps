@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 p-5">
+            <h1>Your conversations</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 p-5">
+            <form action="{% url 'create-thread' %}" method="GET">
+                <button class="btn btn-light p-3" type="submit">Start a conversation</button>
+            </form>
+        </div>
+    </div>
+
+    {% for thread in threads.all %}
+    <div class="row mb-3 px-5">
+        <div class="card col-md-12 p-3 shadow-sm">
+<!--            <h5>{{ thread.user.profile.name }} - {{ thread.receiver.profile.name }}</h5>-->
+            <div class="d-block p-2">
+                <a href="{% url 'profile' thread.user.profile.pk %}">
+                    <img src="{{ thread.user.profile.picture.url }}" width="50" height="50" class="rounded-circle post-img">
+                </a>
+                <a href="{% url 'profile' thread.receiver.profile.pk %}">
+                    <img src="{{ thread.receiver.profile.picture.url }}" width="50" height="50" class="rounded-circle post-img">
+                </a>
+            </div>
+            <a href="{% url 'thread' thread.pk %}" class="stretched-link"></a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock content %}

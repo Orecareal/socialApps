@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center mt-3">
+        <div class="col-md-5 col-sm-12">
+            <a href="{% url 'post-list' %}" class="btn btn-sm btn-light">Back to Feed</a>
+        </div>
+    </div>
+        {% for profile in profile_list %}
+        <div class="row justify-content-center mt-3">
+            <div class="col-md-5 col-sm-12 border-bottom position-relative">
+                <p><img src="{{ profile.picture.url }}" width="30px" height="30px" class="rounded-circle">
+                    <a href="{% url 'profile' profile.pk %}" class="text-primary text-decoration-none">
+                    {% if profile.user.is_superuser %}
+                        {{ profile.name }}</a><span class="small text-secondary">
+                        <a href="" class="a-disabled"><i class="fa-solid fa-circle-check"></i></a>
+                        @{{ profile.user.username }}</span>
+                    </p>
+                    {% else%}
+                        {{ profile.name }}</a><span class="small text-secondary"> @{{ profile.user.username }}</span></p>
+                    {% endif %}
+                {% if profile.location %}
+                    <p>
+                        <i class="fa fa-location-dot"></i> {{ profile.location }}</p>
+                {% endif %}
+                <p>Followers : {{ profile.followers.all.count }}</p>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock content %}
